@@ -4,7 +4,7 @@ import { Subscription, SubscriptionFormData } from './types';
 import { SubscriptionCard } from './components/SubscriptionCard';
 import { AddSubscriptionModal } from './components/AddSubscriptionModal';
 import { CalendarView } from './components/CalendarView';
-import { getDaysUntilExpiry } from './utils';
+import { getDaysUntilExpiry, parseMonthlyAmount } from './utils';
 
 export default function App() {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
@@ -132,6 +132,10 @@ export default function App() {
     }
   };
 
+  const totalMonthlySpend = subscriptions.reduce((total, sub) => {
+    return total + parseMonthlyAmount(sub.amount);
+  }, 0);
+
   return (
     <div className="min-h-screen pb-20 selection:bg-amber-500/30">
       {/* Header */}
@@ -191,6 +195,22 @@ export default function App() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        {/* Total Monthly Spend Card */}
+        <div className="mb-10 bg-gradient-to-br from-amber-500 to-amber-700 dark:from-amber-600 dark:to-amber-900 rounded-[2rem] p-8 sm:p-10 shadow-2xl shadow-amber-500/20 relative overflow-hidden">
+          {/* Decorative elements */}
+          <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/20 dark:bg-amber-400/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-white/10 dark:bg-amber-500/10 rounded-full blur-2xl"></div>
+          
+          <div className="relative z-10">
+            <h2 className="text-sm font-medium text-amber-100 dark:text-amber-200 uppercase tracking-widest mb-3">Total Monthly Spend</h2>
+            <div className="flex items-baseline gap-2">
+              <span className="text-5xl sm:text-6xl font-bold text-white tracking-tight">${totalMonthlySpend.toFixed(2)}</span>
+              <span className="text-amber-200 dark:text-amber-300 font-medium text-lg">/ month</span>
+            </div>
+          </div>
+        </div>
+
         <div className="flex flex-col gap-4 mb-10">
           {expiredSubs.length > 0 && (
             <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-2xl p-5 flex items-start gap-4 shadow-lg shadow-red-500/5 backdrop-blur-sm transition-colors duration-300">
