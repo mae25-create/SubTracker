@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
-import { Plus, LayoutGrid, List, AlertCircle, Filter, Crown, Sun, Moon } from 'lucide-react';
+import { Plus, LayoutGrid, List, AlertCircle, Filter, Crown, Sun, Moon, CalendarDays } from 'lucide-react';
 import { Subscription, SubscriptionFormData } from './types';
 import { SubscriptionCard } from './components/SubscriptionCard';
 import { AddSubscriptionModal } from './components/AddSubscriptionModal';
+import { CalendarView } from './components/CalendarView';
 import { getDaysUntilExpiry } from './utils';
 
 export default function App() {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingSub, setEditingSub] = useState<Subscription | null>(null);
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'list' | 'calendar'>('grid');
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'expired'>('all');
   const [planFilter, setPlanFilter] = useState<string>('all');
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
@@ -137,6 +138,13 @@ export default function App() {
               >
                 <List size={18} />
               </button>
+              <button
+                onClick={() => setViewMode('calendar')}
+                className={`p-2 rounded-lg transition-all ${viewMode === 'calendar' ? 'bg-white dark:bg-zinc-800 shadow-sm text-amber-500 dark:text-amber-400' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'}`}
+                title="Calendar View"
+              >
+                <CalendarDays size={18} />
+              </button>
             </div>
             
             <button
@@ -243,6 +251,11 @@ export default function App() {
                   Clear all filters
                 </button>
               </div>
+            ) : viewMode === 'calendar' ? (
+              <CalendarView 
+                subscriptions={filteredSubscriptions} 
+                onEdit={handleEditSubscription} 
+              />
             ) : (
               <div className={
                 viewMode === 'grid' 

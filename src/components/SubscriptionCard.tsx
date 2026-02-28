@@ -1,6 +1,7 @@
 import { ExternalLink, Calendar, CreditCard, Trash2, Pencil, CircleDollarSign, Clock, AlertCircle } from "lucide-react";
 import { Subscription } from "../types";
 import { getDaysUntilExpiry } from "../utils";
+import { AppLogo } from "./AppLogo";
 
 interface Props {
   subscription: Subscription;
@@ -24,7 +25,10 @@ export function SubscriptionCard({ subscription, onEdit, onDelete }: Props) {
     <div className={`bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-xl border flex flex-col justify-between h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-amber-500/10 ${isExpiringSoon ? 'border-amber-400 dark:border-amber-500/50 ring-1 ring-amber-400 dark:ring-amber-500/50' : isExpired ? 'border-red-400 dark:border-red-500/50' : 'border-zinc-200 dark:border-zinc-800'}`}>
       <div>
         <div className="flex justify-between items-start mb-4">
-          <h3 className="text-2xl font-serif font-semibold text-zinc-900 dark:text-zinc-100 tracking-wide">{subscription.name}</h3>
+          <div className="flex items-center gap-3">
+            <AppLogo name={subscription.name} websiteUrl={subscription.websiteUrl} size={36} className="shadow-sm border border-zinc-100 dark:border-zinc-800" />
+            <h3 className="text-2xl font-serif font-semibold text-zinc-900 dark:text-zinc-100 tracking-wide">{subscription.name}</h3>
+          </div>
           <div className="flex items-center gap-1">
             <button
               onClick={onEdit}

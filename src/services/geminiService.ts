@@ -44,3 +44,36 @@ export async function extractSubscriptionFromImage(base64Image: string, mimeType
     throw new Error("Failed to analyze image. Please try again or enter manually.");
   }
 }
+
+export async function generateLogoForSubscription(name: string): Promise<string | null> {
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash-image",
+      contents: {
+        parts: [
+          {
+            text: `A minimal, modern, flat design app icon logo for a software subscription named '${name}'. Solid background, centered simple icon, high quality, no text or letters.`,
+          },
+        ],
+      },
+      config: {
+        // @ts-ignore
+        imageConfig: {
+          aspectRatio: "1:1",
+        }
+      }
+    });
+
+    if (response.candidates && response.candidates[0] && response.candidates[0].content.parts) {
+      for (const part of response.candidates[0].content.parts) {
+        if (part.inlineData) {
+          return `data:${part.inlineData.mimeType || 'image/png'};base64,${part.inlineData.data}`;
+        }
+      }
+    }
+    return null;
+  } catch (error) {
+    console.error("Error generating logo:", error);
+    return null;
+  }
+}
