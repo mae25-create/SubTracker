@@ -6,6 +6,7 @@ export interface Subscription {
   amount: string;
   expirationDate: string;
   cancellationUrl: string;
+  notes?: string;
 }
 
 export type SubscriptionFormData = Omit<Subscription, 'id'>;

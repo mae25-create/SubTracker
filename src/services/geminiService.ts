@@ -28,7 +28,8 @@ export async function extractSubscriptionFromImage(base64Image: string, mimeType
             plan: { type: Type.STRING, description: "Current subscription plan name (e.g., Pro, Premium, Basic)" },
             amount: { type: Type.STRING, description: "The specific price/amount and billing cycle (e.g., $40/month, $15.99/mo, €100/year)" },
             expirationDate: { type: Type.STRING, description: "Expiration or next renewal date (format as YYYY-MM-DD if possible)" },
-            cancellationUrl: { type: Type.STRING, description: "Cancellation link if visible, otherwise empty" }
+            cancellationUrl: { type: Type.STRING, description: "Cancellation link if visible, otherwise empty" },
+            notes: { type: Type.STRING, description: "Any other relevant details, reminders, or notes about the subscription" }
           },
           required: ["name", "websiteUrl", "plan", "amount", "expirationDate", "cancellationUrl"]
         }

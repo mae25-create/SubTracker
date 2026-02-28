@@ -17,7 +17,8 @@ const emptyFormState: SubscriptionFormData = {
   plan: '',
   amount: '',
   expirationDate: '',
-  cancellationUrl: ''
+  cancellationUrl: '',
+  notes: ''
 };
 
 export function AddSubscriptionModal({ isOpen, onClose, onSave, initialData }: Props) {
@@ -35,7 +36,8 @@ export function AddSubscriptionModal({ isOpen, onClose, onSave, initialData }: P
           plan: initialData.plan,
           amount: initialData.amount || '',
           expirationDate: initialData.expirationDate,
-          cancellationUrl: initialData.cancellationUrl
+          cancellationUrl: initialData.cancellationUrl,
+          notes: initialData.notes || ''
         });
       } else {
         setFormData(emptyFormState);
@@ -197,6 +199,19 @@ export function AddSubscriptionModal({ isOpen, onClose, onSave, initialData }: P
                 onChange={handleChange}
                 className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 rounded-xl focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 outline-none transition-all placeholder-zinc-400 dark:placeholder-zinc-700"
                 placeholder="e.g. netflix.com/cancel"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="notes" className="block text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1.5">Notes</label>
+              <textarea
+                id="notes"
+                name="notes"
+                value={formData.notes || ''}
+                onChange={handleChange as any}
+                rows={3}
+                className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 rounded-xl focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 outline-none transition-all placeholder-zinc-400 dark:placeholder-zinc-700 resize-none"
+                placeholder="Add any relevant details or reminders..."
               />
             </div>
           </form>
